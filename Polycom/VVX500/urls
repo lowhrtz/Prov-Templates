@@ -1,0 +1,4 @@
+(?# Global config)^/000000000000.cfg$(?#global-config.template)(?#xml)
+(?# Individual phone master config)^/(?P<mac>[0-9a-f]{12})\.cfg$(?#master-config.template)(?#xml)
+(?# Individual phone config)^/(?P<mac>[0-9a-f]{12})-reg\.cfg$(?#phone-config.template)(?#xml)
+(?# Directory)^/(?P<mac>[0-9a-f]{12})-directory\.xml$(?#directory.template)(?#xml)

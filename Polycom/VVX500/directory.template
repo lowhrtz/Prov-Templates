@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<directory>
+  <item_list>
+{% set ns = namespace(skip=false) -%}
+{% for contact in misc.get('dir', []) -%}
+  {% if loop.index % 2 == 1 -%}
+    {% if contact -%}
+      {% set ns.skip = false -%}
+    {% else -%}
+      {% set ns.skip = true -%}
+    {% endif -%}
+    {% if not ns.skip %}
+    <item>
+      <lb>{{ contact }}</lb>
+    {% endif -%}
+  {% else -%}
+    {% if not ns.skip %}
+      <ct>{{ contact }}</ct>
+      <sd>{{ loop.index // 2 }}</sd>
+    </item>
+    {% endif -%}
+  {% endif -%}
+{% endfor %}
+  </item_list>
+</directory>

@@ -1,0 +1,1 @@
+(?# Phone Config)^/cfg(?P<mac>[0-9a-f]{12})\.xml$(?#phone-config.template)(?#xml)

@@ -1,0 +1,139 @@
+
+<style>
+fieldset {
+  display: inline;
+  padding: 15px 25px;
+  border-radius: 20px; 
+  background-color: #595959;
+}
+
+legend {
+  border-style: solid solid none;
+  border-width: 1px;
+  border-radius: 5px; 
+  padding: 4px;
+  background-color: #595959;
+}
+
+textarea {
+  width: 700px;
+  height: 500px;
+}
+
+</style>
+<div class="header">{{template}}</div>
+<fieldset>
+<legend>BLF</legend>
+<div class="grid" style="grid-template-columns: auto auto auto auto auto auto; text-align: right;">
+{% for i in range(1, 9) %}
+{% set i2 = i + 8 %}
+{% set labelname = "label" + i | string() %}
+{% set labelvalue = misc.get(labelname, [''])[0] %}
+{% set dialname = "dial" + i | string() %}
+{% set dialvalue = misc.get(dialname, [''])[0] %}
+{% set labelname2 = "label" + i2 | string() %}
+{% set labelvalue2 = misc.get(labelname2, [''])[0] %}
+{% set dialname2 = "dial" + i2 | string() %}
+{% set dialvalue2 = misc.get(dialname2, [''])[0] %}
+<label for="{{ labelname }}">{{ i }}</label><input name="{{ labelname }}" id="{{ labelname }}" value="{{ labelvalue }}" placeholder="Label" />
+<input name="{{ dialname }}" id="{{ dialname }}" value="{{ dialvalue }}" placeholder="Dial" size=10 style="margin-right: 40px;" />
+<label for="{{ labelname2 }}">{{ i2 }}</label><input name="{{ labelname2 }}" id="{{ labelname2 }}" value="{{ labelvalue2 }}" placeholder="Label" />
+<input name="{{ dialname2 }}" id="{{ dialname2 }}" value="{{ dialvalue2 }}" placeholder="Dial" size=10 />
+{% endfor %}
+</div>
+</fieldset><br />
+
+<br />
+<fieldset>
+<legend>Softkey</legend>
+{% for i in range(1, 8) %}
+{% set sk_actionname = "sk_action" + i | string() %}
+{% set sk_actionvalue = misc.get(sk_actionname, [''])[0] %}
+{% set sk_labelname = "sk_label" + i | string() %}
+{% set sk_labelvalue = misc.get(sk_labelname, [''])[0] %}
+{% set sk_enablename = "sk_enable" + i | string() %}
+{% set sk_enablevalue = misc.get(sk_enablename, [''])[0] %}
+{% set sk_useidle = "sk_useidle" + i | string() %}
+{% set sk_useidlevalue = misc.get(sk_useidle, [''])[0] %}
+{% set sk_useactive = "sk_useactive" + i | string() %}
+{% set sk_useactivevalue = misc.get(sk_useactive, [''])[0] %}
+{% set sk_usedialtone = "sk_usedialtone" + i | string() %}
+{% set sk_usedialtonevalue = misc.get(sk_usedialtone,[''])[0] %}
+{% set sk_usehold = "sk_usehold" + i | string() %}
+{% set sk_useholdvalue = misc.get(sk_usehold, [''])[0] %}
+<label for="{{ sk_labelname }}">{{ i }}</label>
+<input name="{{ sk_labelname }}" id="{{ sk_labelname }}" value="{{ sk_labelvalue }}" placeholder="Label" />
+<input name="{{ sk_actionname }}" id="{{ sk_actionname }}" value="{{ sk_actionvalue }}" placeholder="Action" />
+<select name="{{ sk_enablename }}" id="{{ sk_enablename }}">
+<option>Enable</option>
+<option {{ 'selected' if sk_enablevalue == 'Disable' else '' }}>Disable</option>
+</select>
+<input type="checkbox" name="{{ sk_useidle }}" id="{{ sk_useidle }}" {{ 'checked' if sk_useidlevalue == 'on' else '' }} /><label for="{{ sk_useidle }}">idle</label>
+<input type="checkbox" name="{{ sk_useactive }}" id="{{ sk_useactive }}" {{ 'checked' if sk_useactivevalue == 'on' else '' }} /><label for="{{ sk_useactive }}">active</label>
+<input type="checkbox" name="{{ sk_usedialtone }}" id="{{ sk_usedialtone }}" {{ 'checked' if sk_usedialtonevalue == 'on' else '' }} /><label for="{{ sk_usedialtone }}">dialtone</label>
+<input type="checkbox" name="{{ sk_usehold }}" id="{{ sk_usehold }}" {{ 'checked' if sk_useholdvalue == 'on' else '' }} /><label for="{{ sk_usehold }}">hold</label>
+<br />
+{% endfor %}
+</fieldset><br />
+
+<br />
+<fieldset>
+<legend>Message Center</legend>
+<div class="inline-grid gr-two-col" style="text-align: left; gap: 0px 10px;">
+{% set subscribe = misc.get('subscribe', [ext])[0] %}
+{% set callback_mode = misc.get('callback_mode', ['Contact'])[0] %}
+{% set callback = misc.get('callback', ['*97'])[0] %}
+<label for="subscribe">Subscription Address</label>
+<input name="subscribe" id="subscribe" value="{{ subscribe }}" />
+<label for="callback_mode">Callback Mode</label>
+<select name="callback_mode" id="callback_mode" style='justify-self: start;'>
+<option {{ 'selected' if callback_mode == 'Registration' else '' }}>Registration</option>
+<option {{ 'selected' if callback_mode == 'Contact' else '' }}>Contact</option>
+<option {{ 'selected' if callback_mode == 'Disabled' else '' }}>Disabled</option>
+</select>
+<label for="callback">Callback Contact</label>
+<input name="callback" id="callback" value="{{ callback }}" />
+</div>
+</fieldset><br />
+
+<br />
+{% set manualvalue = misc.get('manual', [''])[0] %}
+<label for="manual">Manual Options</label><br />
+<textarea name="manual" id="manual" spellcheck="false" style="margin-top: 5px;">{{ manualvalue }}</textarea><br />
+
+<br />
+<fieldset>
+<legend>Directory</legend>
+<input type="button" onclick="
+var c = document.getElementById('contacts');
+// console.log(c);
+var name = document.createElement('input');
+var num = document.createElement('input');
+name.setAttribute('name', 'dir');
+num.setAttribute('name', 'dir');
+name.setAttribute('placeholder', 'Name');
+num.setAttribute('placeholder', 'Number');
+c.appendChild(name);
+c.appendChild(num);
+" value="Add Contact" />
+<div id="contacts" class="grid gr-two-col">
+{% set ns = namespace(skip=false) %}
+{% for contact in misc.get('dir', []) %}
+  {% if loop.index0 % 2 == 0 %}
+  {% set ph = 'Name' %}
+    {% if contact %}
+      {% set ns.skip = false %}
+    {% else %}
+      {% set ns.skip = true %}
+    {% endif %}
+  {% else %}
+    {% set ph = 'Number' %}
+  {% endif %}
+
+{% if not ns.skip %}
+<input name="dir" value="{{ contact }}" placeholder="{{ ph }}" />
+{% endif %}
+
+{% endfor %}
+</div>
+</fieldset>

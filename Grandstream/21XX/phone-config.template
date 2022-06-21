@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<gs_provision version="1">
+<mac>{{ mac }}</mac>
+  <config version="1">
+
+{{ misc.get('manual', [''])[0] }}
+{% set global_settings = model_misc.get('Grandstream/21XX', {}) -%}
+{{ global_settings.get('manual', [''])[0] }}
+
+<!--####################################################################-->
+<!--# Account Active. 0 - No, 1 - Yes. Default value is 0-->
+<!--# Number: 0, 1-->
+    <P271>1</P271>
+<!--# Account Name-->
+    <P270>{{ name }}</P270>
+    <P4180>{{ name }}</P4180>
+<!--# SIP Server-->
+    <P47>{{ phone_server }}</P47>
+<!--# SIP User ID-->
+    <P35>{{ ext }}</P35>
+    <P4060>{{ ext }}</P4060>
+<!--# SIP Authenticate ID-->
+    <P36>{{ ext }}</P36>
+    <P4090>{{ ext }}</P4090>
+<!--# SIP Authenticate Password-->
+    <P34>{{ secret }}</P34>
+    <P4120>{{ secret }}</P4120>
+<!--# Admin password-->
+    <P2>{{ global_settings.get('admin_pw', ['admin'])[0] }}</P2>
+<!--# Name (Display Name, e.g., John Doe)-->
+    <P3>{{ name }}</P3>
+    <P27020>{{ name }}</P27020>
+<!--# NTP Server-->
+    <P30>{{ ntp_server }}</P30>
+<!--# Time Zone-->
+    <P64>{{ global_settings.get('time_zone', [''])[0] }}</P64>
+<!--# Voice Mail UserID-->
+    <P33>{{ misc.get('voice_mail', ['*97'])[0] }}</P33>
+<!--# Auto Answer. 0 - No, 1 - Yes-->
+    <P90>0</P90>
+<!--# Allow Auto Answer by Call-Info. 0 - No, 1 - Yes-->
+    <P298>1</P298>
+<!--# Enable Phonebook XML Download-->
+    <P330>3</P330>
+<!--# Phone Book XML Server Path-->
+    <P331>{{ global_settings.get('phonebook_url', [''])[0] }}</P331>
+<!--# Phonebook Download Interval-->
+    <P332>60</P332>
+<!--# Remove Manually-edited entries on Download-->
+    <P333>0</P333>
+<!--# Phonebook Key Function-->
+    <P1526>2</P1526>
+<!--# Weather Update-->
+<!--# Enable weather update. 0 - No, 1 - Yes. Default is 1-->
+    <P1402>1</P1402>
+<!--# City Code-->
+<!--# 0 - Use Self-Defined City Code, 1 - Automatic. Default is 1-->
+<!--# Number: 0, 1-->
+    <P1405>0</P1405>
+<!--# Self-Defined City Code-->
+<!--# String-->
+    <!--<P1377>USFL0479</P1377>-->
+    <P1377>{{ global_settings.get('city_code', [''])[0] }}</P1377>
+<!--# Date Display Format-->
+<!--# 0: yyyy-mm-dd  eg. 2011-10-31-->
+<!--# 1: mm-dd-yyyy eg. 10-31-2011-->
+<!--# 2: dd-mm-yyyy eg. 31-10-2011-->
+<!--# 3: dddd, MMMM dd eg. Monday, October 31-->
+<!--# 4: MMMM dd, dddd eg. October 31, Monday-->
+    <P102>3</P102>
+<!--# Virtual Multi-Purpose Keys-->
+<!--# VPK Mode. 0 - Advanced, 1 - Traditional. Default is 0-->
+    <P8369>0</P8369>
+<!--# Show Label Background. 0 - No, 1 - Yes. Default is 0-->
+    <P8345>0</P8345>
+<!--# Use Long Label. 0 - No, 1 - Yes. Default is 0-->
+    <P8346>1</P8346>
+<!--# Wallpaper Settings-->
+<!--# Wallpaper Source. O - Default, 1 - Download, 2 - USB, 3 - Uploaded-->
+    <P2916>1</P2916>
+<!--# Wallpaper Server Path-->
+    <P2917>{{ global_settings.get('wallpaper_server', [''])[0] }}</P2917>
+<!--# Dial Plan. Default value is { x+ | \+x+ | *x+ | *xx*x+ }-->
+    <P290>{ x+ | \\+x+ | *x+ | *xx*x+ | *1x }</P290>
+<!--####################################################################-->
+
+{% set PCode = [
+    ('1363', '1364', '1465', '1466'),
+    ('1365', '1366', '1467', '1468'),
+    ('1367', '1368', '1469' ,'1470'),
+    ('1369', '1370', '1471', '1472'),
+    ('1371', '1372', '1473', '1474'),
+    ('1373', '1374', '1475', '1476'),
+    ('23800', 'P23801', '23802', '23803'),
+    ('23804', '23805', '23806', '23807'),
+    ('23808', '23809', '23810', '23811'),
+    ('23812', '23813', '23814', '23815'),
+    ('23816', '23817', '23818', '23819'),
+    ('23820', '23821', '23822', '23823'),
+] -%}
+{% for i in range(1, 13) -%}
+{% set desc = "desc" + i | string() -%}
+{% set desc_value = misc.get(desc, [''])[0] -%}
+{% if desc_value -%}
+{% set value = "value" + i | string() -%}
+{% set mode = "mode" + i | string() -%}
+{% set account = "account" + i | string() -%}
+{% set value_value = misc.get(value, [''])[0] -%}
+{% set mode_value = misc.get(mode, ['11'])[0] -%}
+{% set account_value = misc.get(account, ['0'])[0] -%}
+<!-- VPK {{ i }} -->
+<P{{ PCode[i - 1][0] }}>{{ mode_value }}</P{{ PCode[i - 1][0] }}>
+<P{{ PCode[i - 1][1] }}>{{ account_value }}</P{{ PCode[i - 1][1] }}>
+<P{{ PCode[i - 1][2] }}>{{ desc_value }}</P{{ PCode[i - 1][2] }}>
+<P{{ PCode[i - 1][3] }}>{{ value_value }}</P{{ PCode[i - 1][3] }}>
+{% endif -%}
+{% endfor -%}
+
+{% set base_p_value = 23000 -%}
+{% set ns = namespace(i=0) -%}
+{% for desc in misc.get('ext_desc', []) %}
+{% if desc -%}
+{% set iter = ns.i * 5 -%}
+{% set mode_p = iter + base_p_value -%}
+{% set account_p = iter + base_p_value + 1 -%}
+{% set desc_p = iter + base_p_value + 2 -%}
+{% set value_p = iter + base_p_value + 3 -%}
+{% set i = loop.index0 -%}
+<!-- EXT {{ ns.i + 1 }} -->
+<P{{ mode_p }}>{{ misc['ext_mode'][i] }}</P{{ mode_p }}>
+<P{{ account_p }}>{{ misc['ext_account'][i] }}</P{{ account_p }}>
+<P{{ desc_p }}>{{ desc }}</P{{ desc_p }}>
+<P{{ value_p }}>{{ misc['ext_value'][i] }}</P{{ value_p }}>
+{% set ns.i = ns.i + 1 -%}
+{% endif -%}
+{% endfor %}
+
+{% set base_p_value_mpk = (323, 301, 302, 303) -%}
+{% set ns = namespace(i=0) -%}
+{% for desc in misc.get('mpk_desc', []) %}
+{% if desc -%}
+{% set iter = ns.i * 3 -%}
+{% set mode_m = base_p_value_mpk[0] + ns.i -%}
+{% set account_m = iter + base_p_value_mpk[1] -%}
+{% set desc_m = iter + base_p_value_mpk[2] -%}
+{% set value_m = iter + base_p_value_mpk[3] -%}
+{% set i = loop.index0 -%}
+<!-- MPK {{ ns.i + 1 }} -->
+<P{{ mode_m }}>{{ misc['mpk_mode'][i] }}</P{{ mode_m }}>
+<P{{ account_m }}>{{ misc['mpk_account'][i] }}</P{{ account_m }}>
+<P{{ desc_m }}>{{ desc }}</P{{ desc_m }}>
+<P{{ value_m }}>{{ misc['mpk_value'][i] }}</P{{ value_m }}>
+{% set ns.i = ns.i + 1 -%}
+{% endif -%}
+{% endfor %}
+
+  </config>
+</gs_provision>

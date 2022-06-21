@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<polycomConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="polycomConfig.xsd">
+
+{# The manual options need to come first otherwise overriding options won't take effect. -#}
+{{ misc.get('manual', [''])[0] }}
+
+{% set global_settings = model_misc.get('Polycom/VVX500', {}) -%}
+{% set admin_pw = global_settings.get('admin_pw', ['456'])[0] -%}
+{% set gmt_offset = global_settings.get('gmt_offset', [''])[0] -%}
+{% set idle_screen = global_settings.get('idle_screen', [''])[0] -%}
+{% set global_manual = global_settings.get('global_manual', [''])[0] -%}
+
+<device
+device.set="1"
+>
+  <device.auth
+  device.auth.localAdminPassword="{{ admin_pw }}"
+  >
+    <device.auth.localAdminPassword
+    device.auth.localAdminPassword.set="1"
+    >
+    </device.auth.localAdminPassword>
+  </device.auth>
+  <device.sntp
+  device.sntp.gmtOffset="{{ gmt_offset }}"
+  device.sntp.serverName="{{ ntp_server }}"
+  >
+    <device.sntp.gmtOffset
+    device.sntp.gmtOffset.set="1"
+    >
+    </device.sntp.gmtOffset>
+    <device.sntp.serverName
+    device.sntp.serverName.set="1"
+    >
+    </device.sntp.serverName>
+    </device.sntp>
+</device>
+
+<reg
+reg.1.server.1.address="{{ phone_server }}"
+reg.1.server.1.expires="3600"
+reg.1.address="{{ ext }}"
+reg.1.auth.password="{{ secret }}"
+reg.1.auth.userId="{{ ext  }}"
+reg.1.label="{{ name }}"
+reg.1.displayName="{{ name }}"
+reg.1.lineKeys="1"
+>
+</reg>
+
+<attendant>
+<attendant.resourceList
+
+{% for i in range(1, 17) -%}
+{% set label_fn = 'label' + i | string() -%}
+{% set dial_fn = 'dial' + i | string() -%}
+{% set label = misc.get(label_fn, [''])[0] -%}
+{% set dial = misc.get(dial_fn, [''])[0] -%}
+{% if label and dial -%}
+
+attendant.resourceList.{{ i }}.label="{{ label }}"
+attendant.resourceList.{{ i }}.address="{{ dial }}"
+
+{% endif -%}
+{% endfor -%}
+>
+</attendant.resourceList>
+</attendant>
+
+<feature
+feature.autoLocalHold="0"
+>
+	
+  <feature.enhancedFeatureKeys
+  feature.enhancedFeatureKeys.enabled="1"
+  >
+  </feature.enhancedFeatureKeys>
+
+</feature>
+
+<softkey
+{% for i in range(1, 8) -%}
+{% set sk_label_fn = 'sk_label' + i | string() -%}
+{% set sk_action_fn = 'sk_action' + i | string() -%}
+{% set sk_enable_fn = 'sk_enable' + i | string() -%}
+{% set sk_useidle_fn = 'sk_useidle' + i | string() -%}
+{% set sk_useactive_fn = 'sk_useactive' + i | string() %}
+{% set sk_usedialtone_fn = 'sk_usedialtone' + i | string() -%}
+{% set sk_usehold_fn = 'sk_usehold' + i | string() -%}
+{% set sk_label = misc.get(sk_label_fn, [''])[0] -%}
+{% set sk_action = misc.get(sk_action_fn, [''])[0] -%}
+{% set sk_enable = misc.get(sk_enable_fn, [''])[0] -%}
+{% set sk_useidle = misc.get(sk_useidle_fn, [''])[0] -%}
+{% set sk_useactive = misc.get(sk_useactive_fn, [''])[0] -%}
+{% set sk_usedialtone = misc.get(sk_usedialtone_fn, [''])[0] -%}
+{% set sk_usehold = misc.get(sk_usehold_fn, [''])[0] -%}
+
+{% if sk_label and sk_action -%}
+softkey.{{ i }}.action="{{ sk_action }}"
+softkey.{{ i }}.enable="{{ '1' if sk_enable == 'Enable' else '0' }}"
+softkey.{{ i }}.insert="0"
+softkey.{{ i }}.label="{{ sk_label }}"
+softkey.{{ i }}.use.idle="{{ '1' if sk_useidle == 'on' else '0' }}"
+softkey.{{ i }}.use.active="{{ '1' if sk_useactive == 'on' else '0' }}"
+softkey.{{ i }}.use.dialtone="{{ '1' if sk_usedialtone == 'on' else '0' }}"
+softkey.{{ i }}.use.hold="{{ '1' if sk_usehold == 'on' else '0' }}"
+{% endif -%}
+
+{% endfor -%}
+>
+</softkey>
+
+<msg
+msg.bypassInstantMessage="0"
+>
+
+  <msg.mwi
+  msg.mwi.1.callBackMode="{{ misc.get('callback_mode', ['contact'])[0] | lower }}"
+  msg.mwi.1.callBack="{{ misc.get('callback', ['*97'])[0] }}"
+  msg.mwi.1.subscribe="{{ misc.get('subscribe', [ext])[0] }}"
+  >
+  </msg.mwi>
+
+</msg>
+<up
+up.oneTouchVoiceMail="1"
+up.mwiVisible="0"
+>
+</up>
+
+<mb mb.proxy="">
+  <mb.idleDisplay mb.idleDisplay.home="{{ idle_screen  }}" mb.idleDisplay.refresh="600">
+  </mb.idleDisplay>
+  <mb.idleRefresh mb.idleRefresh.onFailure="60">
+  </mb.idleRefresh>
+</mb>
+
+{{ global_manual }}
+
+</polycomConfig>

@@ -1,0 +1,4 @@
+function add_contact() {
+  var contacts = document.getElementById("contacts");
+  console.log('add_contact called!');
+}

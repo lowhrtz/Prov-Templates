@@ -1,0 +1,185 @@
+<div class="header">{{ template }}</div>
+Virtual Multi-Purpose Keys<br />
+<div class="inline-grid gr-five-col">
+{% for i in range(1, 13) %}
+{% set desc = "desc" + i | string() %}
+{% set desc_value = misc.get(desc, [''])[0] %}
+{% set value = "value" + i | string() %}
+{% set value_value = misc.get(value, [''])[0] %}
+{% set mode = "mode" + i | string() %}
+{% set mode_value = misc.get(mode, [''])[0] %}
+{% set account = "account" + i | string() %}
+{% set account_value = misc.get(account, [''])[0] %}
+<label for="{{ desc }}">{{ i }}</label>
+<input id="{{ desc }}" name="{{ desc }}" value="{{ desc_value }}" placeholder="Description" />
+<input id="{{ value }}" name="{{ value }}" value="{{ value_value }}" size=10 placeholder="Value" />
+<select id="{{ mode }}" name="{{ mode }}">
+  <option value="11" {{ "selected" if mode_value == "11" else "" }} >BLF</option>
+  <option value="10" {{ "selected" if mode_value == "10" else "" }} >Speed Dial</option>
+  <option value="15" {{ "selected" if mode_value == "15" else "" }} >Dial DTMF</option>
+  <option value="16" {{ "selected" if mode_value == "16" else "" }} >Voice Mail</option>
+</select>
+<select id="{{ account }}" name="{{ account }}">
+  <option value="0" {{ "selected" if account_value == "0" else "" }} >Account 1</option>
+  <option value="1" {{ "selected" if account_value == "1" else "" }} >Account 2</option>
+  <option value="2" {{ "selected" if account_value == "2" else "" }} >Account 3</option>
+  <option value="3" {{ "selected" if account_value == "3" else "" }} >Account 4</option>
+  <option value="4" {{ "selected" if account_value == "4" else "" }} >Account 5</option>
+  <option value="5" {{ "selected" if account_value == "5" else "" }} >Account 6</option>
+</select>
+{% endfor %}
+</div><br />
+{% set voice_mail = misc.get("voice_mail", ['*97'])[0] %}
+<br /><label for="voice_mail">Voice Mail UserID</label><br />
+<input id="voice_mail" name="voice_mail" value="{{ voice_mail }}" size=10 /><br /><br />
+{% set manual = misc.get("manual", [''])[0] %}
+<label for="manual">Manual Options</label><br />
+<textarea id="manual" name="manual" style="height: 350; width: 500;" spellcheck="false" >{{ manual }}</textarea><br />
+<br />
+Extension Module Entries<br />
+<input type="button" onclick="
+var e = document.getElementById('EXTentries');
+var desc = document.createElement('input');
+var value = document.createElement('input');
+var mode = document.createElement('select');
+var blf = document.createElement('option');
+var speed_dial = document.createElement('option');
+var dial_dtmf = document.createElement('option');
+var voice_mail = document.createElement('option');
+var account = document.createElement('select');
+var acct_1 = document.createElement('option');
+var acct_2 = document.createElement('option');
+var acct_3 = document.createElement('option');
+var acct_4 = document.createElement('option');
+var acct_5 = document.createElement('option');
+var acct_6 = document.createElement('option');
+blf.setAttribute('value', '1');
+blf.innerHTML = 'BLF';
+speed_dial.setAttribute('value', '0');
+speed_dial.innerHTML = 'Speed Dial';
+dial_dtmf.setAttribute('value', '5');
+dial_dtmf.innerHTML = 'Dial DTMF';
+voice_mail.setAttribute('value', '6');
+voice_mail.innerHTML = 'Voice Mail';
+mode.appendChild(blf); mode.appendChild(speed_dial); mode.appendChild(dial_dtmf); mode.appendChild(voice_mail);
+acct_1.setAttribute('value', '0');
+acct_1.innerHTML = 'Account 1';
+acct_2.setAttribute('value', '1');
+acct_2.innerHTML = 'Account 2';
+acct_3.setAttribute('value', '2');
+acct_3.innerHTML = 'Account 3';
+acct_4.setAttribute('value', '3');
+acct_4.innerHTML = 'Account 4';
+acct_5.setAttribute('value', '4');
+acct_5.innerHTML = 'Account 5';
+acct_6.setAttribute('value', '5');
+acct_6.innerHTML = 'Account 6';
+account.appendChild(acct_1); account.appendChild(acct_2); account.appendChild(acct_3); account.appendChild(acct_4); account.appendChild(acct_5); account.appendChild(acct_6);
+desc.setAttribute('name', 'ext_desc');
+desc.setAttribute('placeholder', 'Description');
+value.setAttribute('name', 'ext_value');
+value.setAttribute('placeholder', 'Value');
+mode.setAttribute('name', 'ext_mode');
+account.setAttribute('name', 'ext_account');
+e.appendChild(desc); e.appendChild(value); e.appendChild(mode); e.appendChild(account);
+" value="Add Entry" /><br />
+<div id="EXTentries" class="inline-grid gr-four-col">
+{% for desc in misc.get('ext_desc', []) %}
+{% if desc %}
+{% set i = loop.index0 %}
+{% set value = misc['ext_value'][i] %}
+{% set mode = misc['ext_mode'][i] %}
+{% set account = misc['ext_account'][i] %}
+<input name="ext_desc" value="{{ desc }}" />
+<input name="ext_value" value="{{ value }}" />
+<select name="ext_mode">
+  <option value="1" {{ "selected" if mode == "1" else "" }} >BLF</option>
+  <option value="0" {{ "selected" if mode == "0" else "" }} >Speed Dial</option>
+  <option value="5" {{ "selected" if mode == "5" else "" }} >Dial DTMF</option>
+  <option value="6" {{ "selected" if mode == "6" else "" }} >Voice Mail</option>
+</select>
+<select name="ext_account">
+  <option value="0" {{ "selected" if account == "0" else "" }} >Account 1</option>
+  <option value="1" {{ "selected" if account == "1" else "" }} >Account 2</option>
+  <option value="2" {{ "selected" if account == "2" else "" }} >Account 3</option>
+  <option value="3" {{ "selected" if account == "3" else "" }} >Account 4</option>
+  <option value="4" {{ "selected" if account == "4" else "" }} >Account 5</option>
+  <option value="5" {{ "selected" if account == "5" else "" }} >Account 6</option>
+</select>
+{% endif %}
+{% endfor %}
+</div><br /><br />
+Physical Multi-Purpose Keys (GXP2130/2160 only)<br />
+<input type="button" onclick="
+var e = document.getElementById('PhysMPK');
+var desc = document.createElement('input');
+var value = document.createElement('input');
+var mode = document.createElement('select');
+var blf = document.createElement('option');
+var speed_dial = document.createElement('option');
+var dial_dtmf = document.createElement('option');
+var voice_mail = document.createElement('option');
+var account = document.createElement('select');
+var acct_1 = document.createElement('option');
+var acct_2 = document.createElement('option');
+var acct_3 = document.createElement('option');
+var acct_4 = document.createElement('option');
+var acct_5 = document.createElement('option');
+var acct_6 = document.createElement('option');
+blf.setAttribute('value', '1');
+blf.innerHTML = 'BLF';
+speed_dial.setAttribute('value', '0');
+speed_dial.innerHTML = 'Speed Dial';
+dial_dtmf.setAttribute('value', '5');
+dial_dtmf.innerHTML = 'Dial DTMF';
+voice_mail.setAttribute('value', '6');
+voice_mail.innerHTML = 'Voice Mail';
+mode.appendChild(blf); mode.appendChild(speed_dial); mode.appendChild(dial_dtmf); mode.appendChild(voice_mail);
+acct_1.setAttribute('value', '0');
+acct_1.innerHTML = 'Account 1';
+acct_2.setAttribute('value', '1');
+acct_2.innerHTML = 'Account 2';
+acct_3.setAttribute('value', '2');
+acct_3.innerHTML = 'Account 3';
+acct_4.setAttribute('value', '3');
+acct_4.innerHTML = 'Account 4';
+acct_5.setAttribute('value', '4');
+acct_5.innerHTML = 'Account 5';
+acct_6.setAttribute('value', '5');
+acct_6.innerHTML = 'Account 6';
+account.appendChild(acct_1); account.appendChild(acct_2); account.appendChild(acct_3); account.appendChild(acct_4); account.appendChild(acct_5); account.appendChild(acct_6);
+desc.setAttribute('name', 'mpk_desc');
+desc.setAttribute('placeholder', 'Description');
+value.setAttribute('name', 'mpk_value');
+value.setAttribute('placeholder', 'Value');
+mode.setAttribute('name', 'mpk_mode');
+account.setAttribute('name', 'mpk_account');
+e.appendChild(desc); e.appendChild(value); e.appendChild(mode); e.appendChild(account);
+" value="Add Entry" /><br />
+
+<div id="PhysMPK" class="inline-grid gr-four-col">
+{% for desc in misc.get('mpk_desc', []) %}
+{% if desc %}
+{% set i = loop.index0 %}
+{% set value = misc['mpk_value'][i] %}
+{% set mode = misc['mpk_mode'][i] %}
+{% set account = misc['mpk_account'][i] %}
+<input name="mpk_desc" value="{{ desc }}" />
+<input name="mpk_value" value="{{ value }}" />
+<select name="mpk_mode">
+  <option value="1" {{ "selected" if mode == "1" else "" }} >BLF</option>
+  <option value="0" {{ "selected" if mode == "0" else "" }} >Speed Dial</option>
+  <option value="5" {{ "selected" if mode == "5" else "" }} >Dial DTMF</option>
+  <option value="6" {{ "selected" if mode == "6" else "" }} >Voice Mail</option>
+</select>
+<select name="mpk_account">
+  <option value="0" {{ "selected" if account == "0" else "" }} >Account 1</option>
+  <option value="1" {{ "selected" if account == "1" else "" }} >Account 2</option>
+  <option value="2" {{ "selected" if account == "2" else "" }} >Account 3</option>
+  <option value="3" {{ "selected" if account == "3" else "" }} >Account 4</option>
+  <option value="4" {{ "selected" if account == "4" else "" }} >Account 5</option>
+  <option value="5" {{ "selected" if account == "5" else "" }} >Account 6</option>
+</select>
+{% endif %}
+{% endfor %}
+</div>

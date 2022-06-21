@@ -1,0 +1,22 @@
+{% set admin_pw = settings.get('admin_pw', ['admin'])[0] %}
+{% set phonebook_url = settings.get('phonebook_url', [''])[0] %}
+{% set wallpaper_server = settings.get('wallpaper_server', [''])[0] %}
+{% set city_code = settings.get('city_code', [''])[0] %}
+{% set time_zone = settings.get('time_zone', [''])[0] %}
+{% set manual = settings.get('manual', [''])[0] %}
+{% set message = settings.get('message', '') %}
+
+<div class="header">Grandstream/21XX Global Settings</div>
+{% if message %}
+<div class="message">{{ message }}</div>
+{% endif %}
+<div class="inline-grid gr-two-col" style="text-align: right; gap: 10px; margin: 10px 0px;">
+  <label for="admin_pw">Admin Password</label><input id="admin_pw" name="admin_pw" value="{{ admin_pw }}" style="justify-self: start; margin: 0px;" />
+  <label for="phonebook_url">Phonebook URL</label><input id="phonebook_url" name="phonebook_url" value="{{ phonebook_url }}" style="justify-self: start; margin: 0px;" />
+  <label for="wallpaper_server">Wallpaper Server</label><input id="wallpaper_server" name="wallpaper_server" value="{{ wallpaper_server }}" style="justify-self: start; margin: 0px;" />
+  <label for="city_code">City Code</label><input id="city_code" name="city_code" value="{{ city_code }}" style="justify-self: start; margin: 0px;" />
+  <label for="time_zone">Time Zone</label><input id="time_zone" name="time_zone" value="{{ time_zone }}" style="justify-self: start; margin: 0px;" />
+  <label for="manual" style="align-self: start;">Manual Options</label>
+  <textarea name="manual" id="manual" style="width: 350; height: 350; margin: 0px;" spellcheck="false">{{ manual }}</textarea>
+  <label></label><button style="justify-self: start; margin: 0px;" >Update Globals</button>
+</div>
