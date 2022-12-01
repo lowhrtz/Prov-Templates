@@ -18,6 +18,8 @@ Virtual Multi-Purpose Keys<br />
   <option value="10" {{ "selected" if mode_value == "10" else "" }} >Speed Dial</option>
   <option value="15" {{ "selected" if mode_value == "15" else "" }} >Dial DTMF</option>
   <option value="16" {{ "selected" if mode_value == "16" else "" }} >Voice Mail</option>
+  <option value="23" {{ "selected" if mode_value == "23" else "" }} >Multicast Paging</option>
+  <option value="28" {{ "selected" if mode_value == "28" else "" }} >XML App</option>
 </select>
 <select id="{{ account }}" name="{{ account }}">
   <option value="0" {{ "selected" if account_value == "0" else "" }} >Account 1</option>
@@ -46,6 +48,8 @@ var blf = document.createElement('option');
 var speed_dial = document.createElement('option');
 var dial_dtmf = document.createElement('option');
 var voice_mail = document.createElement('option');
+var mcast = document.createElement('option');
+var xml_app = document.createElement('option');
 var account = document.createElement('select');
 var acct_1 = document.createElement('option');
 var acct_2 = document.createElement('option');
@@ -61,7 +65,12 @@ dial_dtmf.setAttribute('value', '5');
 dial_dtmf.innerHTML = 'Dial DTMF';
 voice_mail.setAttribute('value', '6');
 voice_mail.innerHTML = 'Voice Mail';
+mcast.setAttribute('value', '13');
+mcast.innerHTML = 'Multicast Paging';
+xml_app.setAttribute('value', '18');
+xml_app.innerHTML = 'XML App';
 mode.appendChild(blf); mode.appendChild(speed_dial); mode.appendChild(dial_dtmf); mode.appendChild(voice_mail);
+mode.appendChild(mcast); mode.appendChild(xml_app);
 acct_1.setAttribute('value', '0');
 acct_1.innerHTML = 'Account 1';
 acct_2.setAttribute('value', '1');
@@ -97,6 +106,8 @@ e.appendChild(desc); e.appendChild(value); e.appendChild(mode); e.appendChild(ac
   <option value="0" {{ "selected" if mode == "0" else "" }} >Speed Dial</option>
   <option value="5" {{ "selected" if mode == "5" else "" }} >Dial DTMF</option>
   <option value="6" {{ "selected" if mode == "6" else "" }} >Voice Mail</option>
+  <option value="13" {{ "selected" if mode == "13" else "" }} >Multicast Paging</option>
+  <option value="18" {{ "selected" if mode == "18" else "" }} >XML App</option>
 </select>
 <select name="ext_account">
   <option value="0" {{ "selected" if account == "0" else "" }} >Account 1</option>
@@ -119,6 +130,8 @@ var blf = document.createElement('option');
 var speed_dial = document.createElement('option');
 var dial_dtmf = document.createElement('option');
 var voice_mail = document.createElement('option');
+var mcast = document.createElement('option');
+var xml_app = document.createElement('option');
 var account = document.createElement('select');
 var acct_1 = document.createElement('option');
 var acct_2 = document.createElement('option');
@@ -134,7 +147,12 @@ dial_dtmf.setAttribute('value', '5');
 dial_dtmf.innerHTML = 'Dial DTMF';
 voice_mail.setAttribute('value', '6');
 voice_mail.innerHTML = 'Voice Mail';
+mcast.setAttribute('value', '13');
+mcast.innerHTML = 'Multicast Paging';
+xml_app.setAttribute('value', '18');
+xml_app.innerHTML = 'XML App';
 mode.appendChild(blf); mode.appendChild(speed_dial); mode.appendChild(dial_dtmf); mode.appendChild(voice_mail);
+mode.appendChild(mcast); mode.appendChild(xml_app);
 acct_1.setAttribute('value', '0');
 acct_1.innerHTML = 'Account 1';
 acct_2.setAttribute('value', '1');
@@ -171,6 +189,8 @@ e.appendChild(desc); e.appendChild(value); e.appendChild(mode); e.appendChild(ac
   <option value="0" {{ "selected" if mode == "0" else "" }} >Speed Dial</option>
   <option value="5" {{ "selected" if mode == "5" else "" }} >Dial DTMF</option>
   <option value="6" {{ "selected" if mode == "6" else "" }} >Voice Mail</option>
+  <option value="13" {{ "selected" if mode == "13" else "" }} >Multicast Paging</option>
+  <option value="18" {{ "selected" if mode == "18" else "" }} >XML App</option>
 </select>
 <select name="mpk_account">
   <option value="0" {{ "selected" if account == "0" else "" }} >Account 1</option>
