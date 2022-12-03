@@ -81,7 +81,7 @@
 <!--# Wallpaper Server Path-->
     <P2917>{{ global_settings.get('wallpaper_server', [''])[0] }}</P2917>
 <!--# Dial Plan. Default value is { x+ | \+x+ | *x+ | *xx*x+ }-->
-    <P290>{ x+ | \\+x+ | *x+ | *xx*x+ | *1x }</P290>
+    <P290>{ x+ | \+x+ | *x+ | *xx*x+ | *1x }</P290>
 <!--####################################################################-->
 
 {% set PCode = [
