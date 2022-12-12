@@ -135,22 +135,40 @@
 {% endif -%}
 {% endfor %}
 
-{% set base_p_value_mpk = (323, 301, 302, 303) -%}
-{% set ns = namespace(i=0) -%}
+{% set PCode = [
+    (323, 301, 302, 303),
+    (324, 304, 305, 306),
+    (325, 307, 308, 309),
+    (326, 310, 311, 312),
+    (327, 313, 314, 315),
+    (328, 316, 317, 318),
+    (329, 319, 320, 321),
+    (353, 354, 355, 356),
+    (357, 358, 359, 360),
+    (361, 362, 363, 364),
+    (365, 366, 367, 368),
+    (369, 370, 371, 372),
+    (373, 374, 375, 376),
+    (377, 378, 379, 380),
+    (381, 382, 383, 384),
+    (385, 386, 387, 388),
+    (389, 390, 391, 392),
+    (393, 394, 395, 396),
+    (1440, 1441, 1442, 1443),
+    (1444, 1445, 1446, 1447),
+    (1448, 1449, 1450, 1451),
+    (1452, 1453, 1454, 1455),
+    (1456, 1457, 1458, 1459),
+    (1460, 1461, 1462, 1463),
+] -%}
 {% for desc in misc.get('mpk_desc', []) %}
-{% if desc -%}
-{% set iter = ns.i * 3 -%}
-{% set mode_m = base_p_value_mpk[0] + ns.i -%}
-{% set account_m = iter + base_p_value_mpk[1] -%}
-{% set desc_m = iter + base_p_value_mpk[2] -%}
-{% set value_m = iter + base_p_value_mpk[3] -%}
 {% set i = loop.index0 -%}
-<!-- MPK {{ ns.i + 1 }} -->
-<P{{ mode_m }}>{{ misc['mpk_mode'][i] }}</P{{ mode_m }}>
-<P{{ account_m }}>{{ misc['mpk_account'][i] }}</P{{ account_m }}>
-<P{{ desc_m }}>{{ desc }}</P{{ desc_m }}>
-<P{{ value_m }}>{{ misc['mpk_value'][i] }}</P{{ value_m }}>
-{% set ns.i = ns.i + 1 -%}
+{% if i < 24 -%}
+<!-- MPK {{ i + 1 }} -->
+<P{{ PCode[i][0] }}>{{ misc['mpk_mode'][i] }}</P{{ PCode[i][0] }}>
+<P{{ PCode[i][1] }}>{{ misc['mpk_account'][i] }}</P{{ PCode[i][1] }}>
+<P{{ PCode[i][2] }}>{{ desc }}</P{{ PCode[i][2] }}>
+<P{{ PCode[i][3] }}>{{ misc['mpk_value'][i] }}</P{{ PCode[i][3] }}>
 {% endif -%}
 {% endfor %}
 
