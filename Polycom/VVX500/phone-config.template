@@ -8,7 +8,9 @@
 {% set admin_pw = global_settings.get('admin_pw', ['456'])[0] -%}
 {% set gmt_offset = global_settings.get('gmt_offset', [''])[0] -%}
 {% set idle_screen = global_settings.get('idle_screen', [''])[0] -%}
-{% set global_manual = global_settings.get('global_manual', [''])[0] -%}
+{% set global_manual = global_settings.get('manual', [''])[0] -%}
+
+{{ global_manual }}
 
 <device
 device.set="1"
@@ -134,7 +136,5 @@ up.mwiVisible="0"
   <mb.idleRefresh mb.idleRefresh.onFailure="60">
   </mb.idleRefresh>
 </mb>
-
-{{ global_manual }}
 
 </polycomConfig>
