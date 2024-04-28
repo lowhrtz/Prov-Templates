@@ -1,0 +1,2 @@
+(?# MAC Boot)^/(?P<mac>[0-9a-f]{12})\.boot$(?#mac-boot.template)(?#plain)
+(?# MAC Config)^/(?P<mac>[0-9a-f]{12})-yea\.cfg$(?#mac-config.template)(?#plain)

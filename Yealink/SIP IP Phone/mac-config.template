@@ -1,0 +1,64 @@
+#!version:1.0.0.1
+
+{% set global_settings = model_misc.get('Yealink/SIP IP Phone', {}) -%}
+{% set admin_pw = global_settings.get('admin_pw', ['456'])[0] -%}
+{% set timezone = global_settings.get('timezone', ['-5'])[0] -%}
+{% set timezone_name = global_settings.get('timezone_name', ['United States-Eastern Time'])[0] -%}
+{% set global_manual = global_settings.get('manual', [''])[0] -%}
+
+account.1.enable = 1
+account.1.label = {{ name }}
+account.1.display_name = {{ name }}
+account.1.auth_name = {{ ext }}
+account.1.user_name = {{ ext }}
+account.1.password = {{ secret }}
+account.1.sip_server.1.address = {{ phone_server }}
+#Set the password of the administrator, the value format is: admin:<password>
+static.security.user_name.admin = admin
+static.security.user_password = admin:{{ admin_pw  }}
+local_time.ntp_server1 = {{ ntp_server }}
+local_time.time_zone = {{ timezone }}
+local_time.time_zone_name = {{ timezone_name }}
+voice_mail.number.1 = {{ misc.get("vm_number", ['*97'])[0] }}
+
+{% for i in range(1, 21) -%}
+{% set label = 'label' + i | string() -%}
+{% set label_value = misc.get(label, [''])[0] -%}
+{% if label_value -%}
+{% set line = 'line' + i  | string() -%}
+{% set type = 'type' + i  | string() -%}
+{% set value = 'value' + i  | string() -%}
+{% set extension = 'extension' + i  | string() -%}
+{% set line_value = misc.get(line, [''])[0] -%}
+{% set type_value = misc.get(type, [''])[0] -%}
+{% set value_value = misc.get(value, [''])[0] -%}
+{% set extension_value = misc.get(extension, [''])[0] -%}
+linekey.{{ i }}.label = {{ label_value }}
+linekey.{{ i }}.line = {{ line_value }}
+linekey.{{ i }}.type = {{ type_value }}
+linekey.{{ i }}.value = {{ value_value }}
+{% if extension_value -%}
+linekey.{{ i }}.extension = {{ extension_value }}
+{% endif -%}
+{% endif -%}
+{% endfor -%}
+
+{% for label in misc.get('ext_key_label', []) -%}
+{% set i = loop.index0 -%}
+{% set line = misc['ext_key_line'][i] -%}
+{% set type = misc['ext_key_type'][i] -%}
+{% set value = misc['ext_key_value'][i] -%}
+{% set extension = misc['ext_key_extension'][i] -%}
+{% set page_x = misc['ext_key_page_x'][i] -%}
+{% set item_y = misc['ext_key_item_y'][i] -%}
+expansion_module.{{ page_x }}.key.{{ item_y }}.type = {{ type }}
+expansion_module.{{ page_x }}.key.{{ item_y }}.label = {{ label }}
+expansion_module.{{ page_x }}.key.{{ item_y }}.value = {{ value }}
+expansion_module.{{ page_x }}.key.{{ item_y }}.line = {{ line }}
+{% if extension -%}
+expansion_module.{{ page_x }}.key.{{ item_y }}.extension = {{ extension }}
+{% endif -%}
+{% endfor -%}
+
+{{ global_manual }}
+{{ misc.get('manual', [''])[0] }}

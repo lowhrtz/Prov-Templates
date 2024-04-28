@@ -1,0 +1,19 @@
+{% set admin_pw = settings.get('admin_pw', ['456'])[0] %}
+{% set timezone = settings.get('timezone', ['-5'])[0] %}
+{% set timezone_name = settings.get('timezone_name', ['United States-Eastern Time'])[0] %}
+{% set manual = settings.get('manual', [''])[0] %}
+{% set message = settings.get('message', '') %}
+
+<div class="header">Yealink/SIP IP Phone</div>
+{% if message %}
+<div class="message">{{ message }}</div>
+{% endif %}
+
+<div class="inline-grid gr-two-col" style="text-align: right; gap: 5px; margin: 0px 0px;">
+  <label for="admin_pw">Admin Password</label><input name="admin_pw" id="admin_pw" value="{{ admin_pw }}" style='justify-self: start;' />
+  <label for="timezone">Timezone</label><input name="timezone" id="timezone" value="{{ timezone }}" style='justify-self: start;' />
+  <label for="timezone_name">Timezone Name</label><input name="timezone_name" id="timezone_name" value="{{ timezone_name }}" style='justify-self: start;' />
+  <label for="manual" style="align-self: start;">Manual Options</label>
+  <textarea name="manual" id="manual" style="width: 350; height: 350;" spellcheck="false">{{ manual }}</textarea>
+  <label></label><button style='justify-self: start;'>Update Globals</button>
+</div>
