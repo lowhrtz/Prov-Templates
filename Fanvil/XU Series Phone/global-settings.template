@@ -1,0 +1,19 @@
+{% set web_admin_pw = settings.get('web_admin_pw', ['456'])[0] %}
+{% set menu_admin_pw = settings.get('menu_admin_pw', ['456'])[0] %}
+{% set timezone = settings.get('timezone', ['UTC-5'])[0] %}
+{% set manual = settings.get('manual', [''])[0] %}
+{% set message = settings.get('message', '') %}
+
+<div class="header">Fanvil/XU Series Phone</div>
+{% if message %}
+<div class="message">{{ message }}</div>
+{% endif %}
+
+<div class="inline-grid gr-two-col" style="text-align: right; gap: 5px; margin: 0px 0px;">
+  <label for="web_admin_pw">Web Admin Password</label><input name="web_admin_pw" id="web_admin_pw" value="{{ web_admin_pw }}" style='justify-self: start;' />
+  <label for="menu_admin_pw">Menu Admin Password</label><input name="menu_admin_pw" id="menu_admin_pw" value="{{ menu_admin_pw }}" style='justify-self: start;' />
+  <label for="timezone">Timezone</label><input name="timezone" id="timezone" value="{{ timezone }}" style='justify-self: start;' />
+  <label for="manual" style="align-self: start;">Manual Options</label>
+  <textarea name="manual" id="manual" style="width: 350; height: 350;" spellcheck="false">{{ manual }}</textarea>
+  <label></label><button style='justify-self: start;'>Update Globals</button>
+</div>

@@ -1,0 +1,42 @@
+<div class="header">{{template}}</div>
+<br />
+<i>The first entry is usually left blank because the registered line is using it.</i><br />
+<div class="inline-grid gr-five-col">
+{% for i in range(1, 7) -%}
+{% set type = "type" + i | string() -%}
+{% set type_value = misc.get(type, [''])[0] -%}
+{% set name = "name" + i | string() -%}
+{% set name_value = misc.get(name, [''])[0] -%}
+{% set value = "value" + i | string() -%}
+{% set value_value = misc.get(value, [''])[0] -%}
+{% set line = "line" + i | string() -%}
+{% set line_value = misc.get(line, [''])[0] -%}
+<label for="{{ name }}">{{ i }}</label>
+<select name="{{ type }}" id="{{ type }}">
+  <option value="bc" {{ "selected" if type_value == "bc" else "" }} >BLF</option>
+  <option value="f" {{ "selected" if type_value == "f" else "" }} >Speed Dial</option>
+  <option value="m" {{ "selected" if type_value == "m" else "" }} >Voice Mail</option>
+  <option value="i" {{ "selected" if type_value == "i" else "" }} >Intercom</option>
+  <option value="4" {{ "selected" if type_value == "4" else "" }} >DTMF</option>
+  <option value="14" {{ "selected" if type_value == "14" else "" }} >Multicast Paging</option>
+  <option value="7" {{ "selected" if type_value == "7" else "" }} >URL</option>
+</select>
+<input name="{{ name }}" id="{{ name }}" value="{{ name_value }}" placeholder="Name" />
+<input name="{{ value }}" id="{{ value }}" value="{{ value_value }}" placeholder="Value" />
+<select name="{{ line }}" id="{{ line }}">
+  <option value="1" {{ "selected" if line_value == "1" else "" }} >Line 1</option>
+  <option value="2" {{ "selected" if line_value == "2" else "" }} >Line 2</option>
+  <option value="3" {{ "selected" if line_value == "3" else "" }} >Line 3</option>
+  <option value="4" {{ "selected" if line_value == "4" else "" }} >Line 4</option>
+  <option value="5" {{ "selected" if line_value == "5" else "" }} >Line 5</option>
+  <option value="6" {{ "selected" if line_value == "6" else "" }} >Line 6</option>
+</select>
+{% endfor -%}
+</div>
+<br />
+{% set voice_mail = misc.get("voice_mail", ['*97'])[0] %}
+<br /><label for="voice_mail">Voice Message Number</label><br />
+<input id="voice_mail" name="voice_mail" value="{{ voice_mail }}" size=10 /><br /><br />
+{% set manual = misc.get("manual", [''])[0] %}
+<label for="manual">Manual Options</label><br />
+<textarea id="manual" name="manual" style="height: 350; width: 500;" spellcheck="false" >{{ manual }}</textarea><br />

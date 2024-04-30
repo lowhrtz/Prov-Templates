@@ -1,0 +1,1 @@
+(?# Config)^/(?P<mac>[0-9a-f]{12})\.cfg$(?#config.template)(?#plain)
