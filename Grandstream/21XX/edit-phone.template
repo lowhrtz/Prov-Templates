@@ -1,5 +1,7 @@
 <div class="header">{{ template }}</div>
+<br />
 Virtual Multi-Purpose Keys<br />
+<i style="font-size: 14px">The first entry is usually left blank because the registered line is using it.</i><br />
 <div class="inline-grid gr-five-col">
 {% for i in range(1, 13) %}
 {% set desc = "desc" + i | string() %}
