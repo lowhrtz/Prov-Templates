@@ -1,0 +1,1 @@
+(?# Config)^/cfg(?P<mac>[0-9a-f]{12})\.xml$(?#cfg-xml.template)(?#xml)
